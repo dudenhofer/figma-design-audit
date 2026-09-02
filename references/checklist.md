@@ -55,6 +55,21 @@ Structure check: from `get_metadata`, flag any frame with 2+ children where
 `layoutMode` is `NONE` (i.e. not auto layout) — this usually means children are
 manually positioned and will break on content/size changes.
 
+Structural bloat check: flag frames/groups that add nesting without adding meaning —
+these should be flattened or collapsed:
+- A `GROUP` or `FRAME` with exactly one child, where that child isn't clipped
+  (`clipsContent`) and doesn't need the parent for layout (no auto-layout props, no
+  fill/stroke/effect/corner-radius distinct from the child) — the wrapper is
+  structurally redundant and its child could be reparented up a level.
+- A chain of 3+ ancestors (parent → child → grandchild, etc.) that are each single-
+  child `GROUP`/`FRAME` nodes with a default name (matches the patterns above) and no
+  distinguishing visual property (fill, stroke, effect, padding, or auto-layout
+  setting different from their parent) — flag the whole chain as one finding rather
+  than one finding per level, and suggest collapsing it to a single frame.
+- Don't flag a single-child frame that has its own auto-layout config, padding,
+  background, clipping, or a non-default name — those carry structural or semantic
+  meaning even with one child.
+
 This is intentionally generic (no project-specific naming scheme is encoded here yet).
 If a specific convention should be enforced later, add it as a new subsection here.
 

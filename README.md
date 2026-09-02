@@ -44,8 +44,10 @@ without needing to touch `SKILL.md`.
    an existing library component rather than reusing it.
 
 3. **Naming & Structure Hygiene** — flags leftover default Figma names (`Rectangle 4`,
-   `Frame 23`, `Group 12`, bare `Text`, etc.) and frames with multiple children that
-   use manual absolute positioning instead of auto layout.
+   `Frame 23`, `Group 12`, bare `Text`, etc.), frames with multiple children that
+   use manual absolute positioning instead of auto layout, and structurally
+   redundant nesting (single-child wrapper frames/groups, or chains of default-named
+   single-child frames) that should be flattened.
 
 4. **Accessibility (Contrast)** — checks every text/background color pair against
    **both** WCAG 2.1 AA and AAA (not just a single pass/fail), using the bundled
